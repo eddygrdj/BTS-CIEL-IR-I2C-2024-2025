@@ -1,1 +1,51 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
+// C++ code
+//
+
+// Création d'un objet LCD avec l'adresse I2C de l'écran
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup()
+{
+  lcd.begin(16,2);
+  lcd.init();
+  lcd.backlight();
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  int x = 1;
+  x = calcul();
+  while(x!=0){
+    delay(500);
+  }
+  delay(1000);
+}
+
+int calcul()
+{
+  Serial.print("\nRentrez votre premiere valeur: ");
+  while (!Serial.available());
+  int n1=Serial.read();
+  Serial.print("\nn1 = "); Serial.println(n1);
+  
+  
+  Serial.print("\nRentrez votre deuxieme valeur: ");
+  while (!Serial.available());
+  int n2=Serial.read();
+  Serial.print("\nn2 = "); Serial.println(n2);
+  
+  char operateur; 
+  do {
+    Serial.print("\nRentrez votre opérateur (+, -, *, /): ");
+    while (!Serial.available());
+    operateur = Serial.read(); 
+  } while(operateur != '+' && operateur != '-' && operateur != '*' && operateur != '/' );
+  Serial.print("\noperateur = "); Serial.println(operateur);
+  
+  return 0;
+  
+}
