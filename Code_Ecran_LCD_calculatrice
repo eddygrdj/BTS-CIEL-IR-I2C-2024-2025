@@ -29,16 +29,20 @@ void loop()
 
 int calcul()
 {
+  String cn1, cn2;
+  float n1, n2 ,resultat = 0;
   Serial.print("\nRentrez votre premiere valeur: ");
   while (!Serial.available());
-  int n1=Serial.read();
-  Serial.print("\nn1 = "); Serial.println(n1);
+  cn1 = Serial.readStringUntil('\n');
+  n1 = cn1.toFloat();
+  Serial.print("\n1 = "); Serial.println(n1);
   
   
   Serial.print("\nRentrez votre deuxieme valeur: ");
   while (!Serial.available());
-  int n2=Serial.read();
-  Serial.print("\nn2 = "); Serial.println(n2);
+  cn2 = Serial.readStringUntil('\n');
+  n2 = cn2.toFloat();
+  Serial.print("\n2 = "); Serial.println(n2);
   
   char operateur; 
   do {
@@ -47,6 +51,30 @@ int calcul()
     operateur = Serial.read(); 
   } while(operateur != '+' && operateur != '-' && operateur != '*' && operateur != '/' );
   Serial.print("\noperateur = "); Serial.println(operateur);
+  
+  switch (operateur) {
+    case '+':
+      resultat = n1 + n2;
+      break;
+    case '-':
+      resultat = n1 - n2;
+      break;
+    case '*':
+      resultat = n1 * n2;
+      break;
+    case '/':
+      if (n2 != 0)
+        resultat = n1 / n2;
+      else {
+        Serial.println("Erreur: Division par zero !");
+        lcd.clear();
+        lcd.print("Erreur: Div 0");
+        return -1;
+      }
+    break;
+  }
+  Serial.print("\nresultat = "); Serial.println(resultat);
+  
   
   return 0;
   
